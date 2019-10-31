@@ -11,7 +11,7 @@
 
     <div class="container">
       <vue-dropdown :config="config" @setSelectedOption="setTipAmount($event);"></vue-dropdown>
-      <div class="text-container">
+      <div class="text-container-small">
         <h1 v-if="tipMessage != null">{{tipMessage}}</h1>
       </div>
     </div>
@@ -28,7 +28,7 @@
       <button class="calculateButton" v-on:click="calculateTip">Calculate</button>
     </div>
 
-    <div class="container" v-if="party">
+    <div class="text-container-small" v-if="party">
       <h1>Each party pays:</h1>
     </div>
     <div class="container">
@@ -48,7 +48,7 @@
 import Cleave from "vue-cleave-component";
 import VueDropdown from "vue-dynamic-dropdown";
 export default {
-  name: "HelloWorld",
+  name: "Calculator",
   data() {
     return {
       totalBill: null,
@@ -58,6 +58,8 @@ export default {
       tipMessage: null,
       total: null,
       party: false,
+
+      //Options segement for Cleave objects
       options: {
         money: {
           prefix: "$ ",
@@ -75,6 +77,8 @@ export default {
           numeralDecimalScale: 0
         }
       },
+
+      //Configuration for dropdown menu
       config: {
         options: [
           {
@@ -100,9 +104,11 @@ export default {
   },
 
   methods: {
+    //Set the tip percentage from the dropdown menu
     setTipAmount(selectedOption) {
       this.config.placeholder = selectedOption.value;
       this.tipPercentage = parseInt(selectedOption.value) / 100;
+      //Configure a message to render based on the tip percentage
       switch (selectedOption.value) {
         case "25%":
           this.tipMessage = "Excellent Service";
@@ -120,11 +126,13 @@ export default {
           break;
       }
     },
+    //Exceute the calculation for the total bill and tip amount
     calculateTip() {
       this.checkPartySize();
       this.tipTotal = this.totalBill * this.tipPercentage;
       this.total = Number(this.totalBill) + Number(this.tipTotal);
     },
+    //If the bill is to be split, divide the bill and tip amount between the party
     checkPartySize() {
       if (!isNaN(this.partySize) && this.partySize > 1) {
         this.party = true;
@@ -140,7 +148,7 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style scoped>
 .calculator {
   display: flexbox;
@@ -177,5 +185,11 @@ export default {
   font-size: 15px;
   display: flex;
   align-content: flex-start;
+}
+.text-container-small {
+  font-size: 10px;
+  display: flexbox;
+  margin: auto;
+  padding-top: 10px
 }
 </style>

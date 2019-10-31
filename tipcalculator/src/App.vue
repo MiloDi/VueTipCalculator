@@ -1,18 +1,18 @@
 <template>
   <div id="app">
-    <HelloWorld msg="Tip Calculator"/>
+    <Title msg="Tip Calculator"/>
     <Calculator/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Title from './components/Title.vue'
 import Calculator from './components/Calculator.vue'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld,
+    Title,
     Calculator
   }
 }
