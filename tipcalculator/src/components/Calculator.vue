@@ -1,7 +1,7 @@
 <template>
   <div class="calculator">
 
-<div class = "container"> 
+         <div class = "container"> 
     <cleave
         placeholder="Total Bill"
         v-model="totalBill" 
@@ -17,7 +17,6 @@
     @setSelectedOption="setTipAmount($event);">
     </vue-dropdown>
 </div>
-
 <div class = "container"> 
     <cleave
         placeholder="Party Size"
@@ -35,11 +34,17 @@
     </div>
 
 
+<div class ="container">
+
 <div class = "text-container">
-    <h1>Tip: {{"$"+tipTotal.toFixed(2)}}</h1>
+    <h1>Tip: </h1>
+    <h1 v-if="tipTotal != null"> {{"$"+tipTotal.toFixed(2)}}</h1>
 </div>
-<div class = "text-container">
-    <h1>Total: {{"$"+total.toFixed(2)}}</h1>
+<div  class = "text-container">
+    <h1>Total: </h1> 
+    <h1 v-if="total != null">{{"$"+total.toFixed(2)}}</h1>
+</div>
+
 </div>
 
 
@@ -59,7 +64,6 @@ export default {
             tipPercentage: null,
             tipTotal: null,
             total: null,
-            tipMessage: null,
             options: {
                 money: {
                     prefix: '$ ',
@@ -80,16 +84,13 @@ export default {
             config: {
                 options: [
                     {
-                        value: "25%"
-                    },
-                    {
-                        value: "20%"
+                        value: "10%"
                     },
                     {
                         value: "15%"
                     },
                     {
-                        value: "10%"
+                        value: "20%"
                     },
                 ],
                 backgroundColor: "white",
@@ -105,26 +106,11 @@ export default {
         setTipAmount(selectedOption) {
             this.config.placeholder = selectedOption.value;
             this.tipPercentage = parseInt(selectedOption.value)/100;
-            // switch(selectedOption){
-            //     case "25%":
-            //         //change style
-            //         this.tipMessage = "Excellent Service"
-            //         break;
-            //     case "20%":
-            //         this.tipMessage = "Great Service"
-            //         break;
-            //     case "15%":
-            //         this.tipMessage = "Subpar Service"
-            //         break;
-            //     case "10%":
-            //         this.tipMessage = "Poor Service"
-            //         break;              
-            // }
         },
         calculateTip(){
             this.tipTotal = this.totalBill * this.tipPercentage;
             this.total = Number(this.totalBill) + Number(this.tipTotal)
-        },
+        }
     },
     components: {
         VueDropdown,
